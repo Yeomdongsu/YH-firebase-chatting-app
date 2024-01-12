@@ -48,11 +48,10 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatInfo chatInfo = chatInfoArrayList.get(position);
-        String image = "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202010/22/2182ecd3-b8cc-4993-98a7-8c2568f9fbbc.jpg";
+//        String image = "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202010/22/2182ecd3-b8cc-4993-98a7-8c2568f9fbbc.jpg";
 
-
-        if (chatInfo.name.equals("master")){
-            Glide.with(context).load(image).into(holder.imgView);
+        if (chatInfo.name != null && chatInfo.name.equals("master")){
+//            Glide.with(context).load(image).into(holder.imgView);
             holder.txtName.setText("<<< Master >>>");
             holder.txtContent.setText(chatInfo.content);
             return;
