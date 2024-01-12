@@ -71,7 +71,7 @@ public class ChatActivity extends AppCompatActivity {
             }
         });
 
-        adapter = new ChatAdapter(ChatActivity.this, chatInfoArrayList);
+        adapter = new ChatAdapter(ChatActivity.this, chatInfoArrayList, userName);
         recyclerView.setAdapter(adapter);
 
         getChatData();

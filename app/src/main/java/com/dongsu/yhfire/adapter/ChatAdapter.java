@@ -18,16 +18,26 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
     Context context;
     ArrayList<ChatInfo> chatInfoArrayList;
+    String currentUser = "";
 
-    public ChatAdapter(Context context, ArrayList<ChatInfo> chatInfoArrayList) {
+    public ChatAdapter(Context context, ArrayList<ChatInfo> chatInfoArrayList, String currentUser) {
         this.context = context;
         this.chatInfoArrayList = chatInfoArrayList;
+        this.currentUser = currentUser;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        ChatInfo chatInfo = chatInfoArrayList.get(position);
+
+        return chatInfo.name.equals(currentUser) ? 1 : 0;
     }
 
     @NonNull
     @Override
     public ChatAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.chat_row, parent, false);
+        int layout = (viewType == 1) ? R.layout.chat_row_right : R.layout.chat_row;
+        View view = LayoutInflater.from(context).inflate(layout, parent, false);
 
         return new ChatAdapter.ViewHolder(view);
     }
