@@ -13,7 +13,9 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="end"
             android:background="#F3E24E"
+            android:gravity="end"
             android:orientation="horizontal"
             android:padding="5dp">
 
@@ -33,11 +35,8 @@
                 android:id="@+id/txtContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="5dp"
-                android:hint="content.."
                 android:maxLines="2"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="5dp"
                 android:textSize="20sp" />
         </LinearLayout>
 

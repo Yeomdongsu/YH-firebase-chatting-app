@@ -81,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
                     return;
                 }
 
+                if (userName.length() < 2 || userName.length() > 6){
+                    Snackbar.make(btnCheck, "길이는 2 ~ 6글자로 해주세요.", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
                 SharedPreferences sp = getSharedPreferences("yhFire", MODE_PRIVATE);
                 SharedPreferences.Editor editor = sp.edit();
                 editor.putString("name", userName);

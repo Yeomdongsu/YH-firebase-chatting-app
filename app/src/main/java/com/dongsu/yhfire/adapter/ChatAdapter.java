@@ -5,11 +5,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.dongsu.yhfire.R;
 import com.dongsu.yhfire.dto.ChatInfo;
 
@@ -46,8 +48,17 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ChatInfo chatInfo = chatInfoArrayList.get(position);
+        String image = "https://pds.joongang.co.kr/news/component/htmlphoto_mmdata/202010/22/2182ecd3-b8cc-4993-98a7-8c2568f9fbbc.jpg";
 
-        holder.txtName.setText(chatInfo.name + " :");
+
+        if (chatInfo.name.equals("master")){
+            Glide.with(context).load(image).into(holder.imgView);
+            holder.txtName.setText("<<< Master >>>");
+            holder.txtContent.setText(chatInfo.content);
+            return;
+        }
+
+        holder.txtName.setText(chatInfo.name);
         holder.txtContent.setText(chatInfo.content);
     }
 
@@ -60,13 +71,15 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ViewHolder>{
 
         TextView txtName;
         TextView txtContent;
+        ImageView imgView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
             txtName = itemView.findViewById(R.id.txtName);
             txtContent = itemView.findViewById(R.id.txtContent);
-
+            imgView = itemView.findViewById(R.id.imgView);
         }
+
     }
 }
