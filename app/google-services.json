@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "977754395183",
+    "project_id": "yhfire-ea7d0",
+    "storage_bucket": "yhfire-ea7d0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977754395183:android:0b16f00b22c8ded1e1ecda",
+        "android_client_info": {
+          "package_name": "com.dongsu.yhfire"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAZicfnnnNQr2e4-NmgaHTX9-yfMYw_uI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
