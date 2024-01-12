@@ -2,20 +2,22 @@ package com.dongsu.yhfire;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.dongsu.yhfire.adapter.MainAdapter;
-import com.dongsu.yhfire.dto.ChatInfo;
-import com.dongsu.yhfire.dto.ChatRoomList;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -37,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     DatabaseReference databaseReference = firebaseDatabase.getReference();
 
+    // 유저 등급 확인 버튼
+    Button btnCheck;
+
+    // 등급에 따라 화면에 띄울 레이아웃
+    LinearLayout roomLayout;
+    LinearLayout madeRoomLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +53,10 @@ public class MainActivity extends AppCompatActivity {
 
         editChatName = findViewById(R.id.editChatName);
         editUserName = findViewById(R.id.editUserName);
+        btnCheck = findViewById(R.id.btnCheck);
         btnStart = findViewById(R.id.btnStart);
+        roomLayout = findViewById(R.id.roomLayout);
+        madeRoomLayout = findViewById(R.id.madeRoomLayout);
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -55,6 +67,35 @@ public class MainActivity extends AppCompatActivity {
 
         getRoomList();
 
+        btnCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String userName = editUserName.getText().toString().trim();
+
+                // 키보드를 숨김
+                InputMethodManager imm = (InputMethodManager) getSystemService(MainActivity.this.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(editUserName.getWindowToken(), 0);
+
+                if (userName.isEmpty()){
+                    Snackbar.make(btnCheck, "입력하고 눌러주세요.", Snackbar.LENGTH_SHORT).show();
+                    return;
+                }
+
+                SharedPreferences sp = getSharedPreferences("yhFire", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sp.edit();
+                editor.putString("name", userName);
+                editor.apply();
+
+                if (userName.equals("master")){
+                    ShowAlertDialog("master");
+                } else {
+                    ShowAlertDialog("일반 회원");
+                }
+
+            }
+        });
+
+        // master 유저일 경우만
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,7 +145,34 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
 
+    private void ShowAlertDialog(String grade) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle("유저 등급 확인");
 
+        if (grade.equals("master")){
+            builder.setMessage("master 유저입니다.");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    roomLayout.setVisibility(View.VISIBLE);
+                    madeRoomLayout.setVisibility(View.VISIBLE);
+                }
+            });
+
+        } else {
+            builder.setMessage("일반 유저입니다.");
+            builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    roomLayout.setVisibility(View.GONE);
+                    madeRoomLayout.setVisibility(View.VISIBLE);
+                }
+            });
+        }
+
+        builder.show();
     }
 }

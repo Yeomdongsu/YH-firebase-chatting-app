@@ -49,6 +49,8 @@ public class ChatActivity extends AppCompatActivity {
         chatName = getIntent().getStringExtra("chatName");
         String userName = getIntent().getStringExtra("userName");
 
+        Log.i("AAAAAAAAAAA", "chatName : " + chatName + "userName : " + userName);
+
         editContent = findViewById(R.id.editContent);
         btnSend = findViewById(R.id.btnSend);
 
