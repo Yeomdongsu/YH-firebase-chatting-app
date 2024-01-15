@@ -23,9 +23,13 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import org.checkerframework.checker.units.qual.C;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.TimeZone;
 
 public class ChatActivity extends AppCompatActivity {
 
@@ -48,8 +52,6 @@ public class ChatActivity extends AppCompatActivity {
 
         chatName = getIntent().getStringExtra("chatName");
         String userName = getIntent().getStringExtra("userName");
-
-        Log.i("AAAAAAAAAAA", "chatName : " + chatName + "userName : " + userName);
 
         editContent = findViewById(R.id.editContent);
         btnSend = findViewById(R.id.btnSend);
@@ -101,6 +103,7 @@ public class ChatActivity extends AppCompatActivity {
         databaseReference.child("chat").child(chatName).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
                 ChatInfo chatInfo = snapshot.getValue(ChatInfo.class);
                 chatInfo.key = snapshot.getKey();
 
